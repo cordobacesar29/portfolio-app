@@ -2,11 +2,11 @@ import { post } from "./axios.instance";
 
 class AuthService {
   login(user) {
-    return post('api/users/auth/login', user);
+    return post('users/auth/login', user);
   }
 
   signUp(user) {
-    return post('api/users/auth/register', user);
+    return post('users/auth/register', user);
   }
 
   async getCurrentUser() {}
