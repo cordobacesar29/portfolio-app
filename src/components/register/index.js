@@ -3,10 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { Flex, Heading, Text, Input, Button } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 
-import { login } from '../../features/user/UserSlice';
-
+import { signIn } from '../../features/user/UserSlice';
 import authService from '../../services/http-requests/auth.service';
-
 
 export const Register = () => { 
   const [ firstName, setFirstName ] = React.useState('');
@@ -19,7 +17,7 @@ export const Register = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit =  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
     setLoading(true);
@@ -31,10 +29,10 @@ export const Register = () => {
       password
     };
     console.log(user);
-    const res = authService.signUp(user);
-    dispatch(login(user));
+    const res = await authService.signUp(user);
+    dispatch(signIn(user));
     !res ? alert('Error al registrar el usuario') : alert(' SignUp Successfull');
-    history.push('/signIn');
+    history.push('/');
   };
 
   const handleFirstNameChange = (e) => {
@@ -56,14 +54,16 @@ export const Register = () => {
     margin='2rem'
     padding='2rem'
     w='20rem'
-    border='1px solid #c2c2c2'
+    backgroundColor='#101010'
+    border='1px solid #319795'
+    shadow='0px 0px 5px 5px #13221A'
     borderRadius='8px'
     direction='column'
     autoComplete='off'
     onSubmit={handleSubmit}
     >   
       <Text mb='1rem'>Welcome</Text>
-      <Heading mb='1rem'>SignUp</Heading>
+      <Heading mb='1rem' color='whiteAlpha.800'>SignUp</Heading>
       <Input
         mb='1rem'
         placeholder='FirstName'
@@ -103,7 +103,7 @@ export const Register = () => {
         mb='1rem'
         colorScheme="teal" 
         variant="ghost"
-        onClick={()=>history.push('/signIn')}
+        onClick={()=>history.push('/SignIn')}
       >
         Already have an account? SignIn!
       </Button>

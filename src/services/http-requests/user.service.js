@@ -1,19 +1,11 @@
-import axiosInstance from './axios.instance';
+import {get, put, deleteItem} from './axios.instance';
 
-const getUserBoard = () => axiosInstance.get('users/auth/me');
+export const getUserBoard = () => get('users/auth/me');
 
-const getUserById = id => axiosInstance.get(`users/${id}`);
+export const getUserById = id => get(`users/${id}`);
 
-const getUsers = () => axiosInstance.get('users');
+export const getUsers = () => get('users');
 
-const updateUser = (id, body) => axiosInstance.put(`users/${id}`, body);
+export const updateUser = (id, body) => put(`users/${id}`, body);
 
-const deleteUser = id => axiosInstance.delete(`users/${id}`);
-
-export default {
-  getUsers,
-  getUserById,
-  getUserBoard,
-  updateUser,
-  deleteUser,
-};
+export const deleteUser = id => deleteItem(`users/${id}`);

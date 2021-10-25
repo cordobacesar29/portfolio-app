@@ -1,11 +1,15 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/layout';
+import { Flex, Text } from '@chakra-ui/layout';
 
 export const Footer = () => {
   return(
-    <Flex m='1rem'>
-      <h1>Footer</h1>
+    <Flex p='3rem' justify='space-around' align='center' bgColor='#f2f2f2' direction='row'>
+      <Flex direction='row' p='1rem'>
+        <Text> Footer</Text>
+      </Flex>
+      <Flex direction='row' p='1rem'>
+      <Text>otro texto</Text>
+      </Flex>
     </Flex>
-    
   )
 };

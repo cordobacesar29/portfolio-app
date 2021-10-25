@@ -1,15 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Flex, Button } from "@chakra-ui/react";
+import { Flex, Button, Image } from "@chakra-ui/react";
+
+import img from '../../assets/logoc.png'
 
 export const Header = () => {
   return(
-    <Flex justify='space-between' align='center' m='1rem'>
+    <Flex justify='space-between' align='center' px='1rem' bgColor='#f2f2f2'>
       <Flex direction='row' align='center' justify='space-between'>
         <NavLink to="/" >
-          <Button colorScheme="teal" variant="link" m='1rem'>
-            Home
-          </Button>
+          <Image src={img} w='3rem' h='3rem' mx='4rem' />
         </NavLink>
         <NavLink to="/proyects">
           <Button colorScheme="teal" variant="link" m='1rem'>
