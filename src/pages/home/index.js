@@ -1,6 +1,8 @@
 import React from 'react';
 import { Flex, Image, Button, Collapse, Heading, Text } from '@chakra-ui/react';
 
+import img from '../../assets/logoc.png'
+
 export const Home = () => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
@@ -55,9 +57,9 @@ export const Home = () => {
       >
         <Image 
           boxSize="250px" 
-          src="https://i.imgur.com/h4LOU9I.jpg" 
+          src={img} 
           alt="César Córdoba" 
-          borderRadius='full'
+          borderRadius='8px'
           border='#319795 1px solid'
         />
       </Flex>
