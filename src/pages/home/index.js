@@ -46,8 +46,7 @@ export const Home = () => {
           </Button>
         </Flex>
       </Flex>
-      <Flex 
-        m='1rem' 
+      <Flex  
         w='50%' 
         p='1rem'
         justify='center' 
