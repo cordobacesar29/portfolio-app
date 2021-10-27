@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Image, Button, Collapse, Heading, Text } from '@chakra-ui/react';
 
-import img from '../../assets/logoc.png'
+import img from '../../assets/qrcode_www.cordobacesar.com.png'
 
 export const Home = () => {
   const [show, setShow] = React.useState(false);
