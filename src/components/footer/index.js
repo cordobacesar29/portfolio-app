@@ -33,10 +33,6 @@ export const Footer = () => {
                 <Text color='#319795' mx='1rem'>Github</Text>
               </Flex>          
             </a>
-            <Flex>
-            </Flex>
-            <Flex>
-            </Flex>
         </ul>
       </Flex>
     </Flex>
