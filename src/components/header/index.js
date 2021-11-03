@@ -2,7 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Flex, Button, Image } from "@chakra-ui/react";
 
-import img from '../../assets/logoc.png'
+import img from '../../assets/logoc.png';
+
+import firebaseApp from '../../firebase';
+import { getAuth, signOut} from "firebase/auth";
+const auth = getAuth(firebaseApp);
 
 export const Header = () => {
   return(
@@ -23,16 +27,14 @@ export const Header = () => {
         </NavLink>
       </Flex>
       <Flex direction='row' align='center' justify='space-between'>
-        <NavLink to='signIn'>
-          <Button colorScheme="teal" variant="solid" m='1rem'>
-            SignIn
+          <Button 
+            colorScheme="teal" 
+            variant="solid"
+            m='1rem' 
+            onClick={()=>signOut(auth)}
+          >
+            signOut
           </Button>
-        </NavLink>
-        <NavLink to='/signUp'>
-          <Button colorScheme="teal" variant="outline" m='1rem'>
-            SignUp
-          </Button>
-        </NavLink>
       </Flex>
     </Flex>
   )
