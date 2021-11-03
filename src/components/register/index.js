@@ -1,51 +1,43 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { Flex, Heading, Text, Input, Button } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 
-import { signIn } from '../../features/user/UserSlice';
-import authService from '../../services/http-requests/auth.service';
+import firebaseApp from '../../firebase';
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+  GoogleAuthProvider,
+} from "firebase/auth";
+
+const auth = getAuth(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
 
 export const Register = () => { 
-  const [ firstName, setFirstName ] = React.useState('');
-  const [ lastName, setLastName ] = React.useState('');
+  const [isSignUp, setIsSignUp] = React.useState(false);
   const [ email, setEmail ] = React.useState('');
   const [ password, setPassword ] = React.useState('');
   const [ errors, setErrors ] = React.useState([]);
   const [ loading, setLoading ] = React.useState(false);
 
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
     setLoading(true);
 
-    let user = {
-      firstName,
-      lastName,
-      email,
-      password
+    if(isSignUp) {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      !user ? alert('Error al registrar el usuario') : alert(' SignUp Successfull');
+    } else {
+      signInWithEmailAndPassword(auth, email, password);
     };
-    console.log(user);
-    const res = await authService.signUp(user);
-    dispatch(signIn(user));
-    !res ? alert('Error al registrar el usuario') : alert(' SignUp Successfull');
-    history.push('/');
-  };
-
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-  };
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   return(
@@ -63,17 +55,7 @@ export const Register = () => {
     onSubmit={handleSubmit}
     >   
       <Text mb='1rem'>Welcome</Text>
-      <Heading mb='1rem' color='whiteAlpha.800'>SignUp</Heading>
-      <Input
-        mb='1rem'
-        placeholder='FirstName'
-        onChange={handleFirstNameChange}
-      />
-      <Input
-        mb='1rem'
-        placeholder='LastName'
-        onChange={handleLastNameChange}
-      />
+      <Heading mb='1rem' color='whiteAlpha.800'>{ isSignUp ? "SignUp" : "SignIn"}</Heading>
       <Input
         mb='1rem'
         placeholder='Email'
@@ -97,15 +79,30 @@ export const Register = () => {
         disabled={loading}
         isDisabled={loading}
       >
-      SignUp
+      { isSignUp ? "SignUp" : "SignIn"}
+      </Button>
+      <Button 
+        border='none'
+        mb='1rem'
+        colorScheme='teal' 
+        variant="outline"
+        type='submit'
+        disabled={loading}
+        isDisabled={loading}
+        _hover={{border:'1px solid #319795'}}
+        onClick={()=>signInWithRedirect(auth, googleProvider)}
+      >
+      Sign with Google
       </Button>
       <Button  
+        border='none'
         mb='1rem'
         colorScheme="teal" 
-        variant="ghost"
-        onClick={()=>history.push('/SignIn')}
+        variant="outline"
+        _hover={{ border:'1px solid #319795' }}
+        onClick={()=> setIsSignUp(!isSignUp)}
       >
-        Already have an account? SignIn!
+        { isSignUp ? "Already have an account? SignIn!" : "First time here? SignUp!"}
       </Button>
     </Flex>
   )
