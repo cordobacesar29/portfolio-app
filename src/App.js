@@ -30,7 +30,7 @@ function App() {
           { globalUser ? <Home/> : <SignUp/> }
         </Route>  
         <Route path='/proyects'>
-          <Proyects/>
+          <Proyects email={globalUser ? globalUser.email : null}/>
         </Route> 
         <Route path='/roadMap'>
           <RoadMap/>
