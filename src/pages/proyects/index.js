@@ -1,6 +1,7 @@
 import React from 'react';
 import { ProyectList } from './ProyectList';
 import { AddProyect } from './AddProyect';
+import { v4 as uuidv4 } from 'uuid';
 
 import firebaseApp from '../../firebase';
 import {getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
@@ -12,6 +13,7 @@ export const Proyects = ({ email }) => {
 	const [proyectArray, setProyectArray] = React.useState(null);
 	const dataFake= [ 
 		{
+			id: uuidv4(),
 			name: "veterinariApp",
 			description: "Demo veterinaria",
 			repositore: "https://github.com/cordobacesar29/VeterinariApp",
@@ -19,6 +21,7 @@ export const Proyects = ({ email }) => {
 			image: "https://imgur.com/P7ecLgG.png"
 		},
 		{
+			id: uuidv4(),
 			name: "veterinariApp",
 			description: "Demo veterinaria",
 			repositore: "https://github.com/cordobacesar29/VeterinariApp",
@@ -26,6 +29,7 @@ export const Proyects = ({ email }) => {
 			image: "https://imgur.com/P7ecLgG.png"
 		},
 		{
+			id: uuidv4(),
 			name: "veterinariApp",
 			description: "Demo veterinaria",
 			repositore: "https://github.com/cordobacesar29/VeterinariApp",
@@ -63,8 +67,13 @@ export const Proyects = ({ email }) => {
 
 	return (
 		<>
-			{ proyectArray ? <ProyectList proyectArray={proyectArray} email={email}/> :	null }
-			<AddProyect />
+			<h1>Aquí comparto algunos de mis proyectos, agrega los tuyos!</h1>
+			{ proyectArray ?
+			 	<ProyectList proyectArray={proyectArray} email={email} setProyectArray={setProyectArray}/> 
+			 :
+			 	null 
+			}
+			<AddProyect proyectArray={proyectArray} email={email} setProyectArray={setProyectArray}/>
 		</>
 	)
 };
