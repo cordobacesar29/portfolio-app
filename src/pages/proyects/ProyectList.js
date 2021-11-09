@@ -1,7 +1,21 @@
 import React from "react";
-import { Flex, Box, Image, Badge } from "@chakra-ui/react";
+import { Flex, Box, Image, Badge, Button } from "@chakra-ui/react";
 
-export const ProyectList = ({proyectArray, email}) => {
+import firebaseApp from "../../firebase";
+import {getFirestore, updateDoc, doc } from 'firebase/firestore';
+const db = getFirestore(firebaseApp);
+
+export const ProyectList = ({proyectArray, email, setProyectArray}) => {
+
+  const deleteProyect = async (idProyectToDelete) => {
+    //crear array de proyectos
+    const newArrayProyect = proyectArray.filter((proyectObject)=>proyectObject.id !== idProyectToDelete)
+    // actualizar datos
+    const refDocument = doc(db, `usuarios/${email}`);
+    updateDoc(refDocument, { proyects: [...newArrayProyect] });
+    //actualizamos el state
+    setProyectArray(newArrayProyect);
+  }
   return (
     <Flex
       justify='center'
@@ -48,10 +62,17 @@ export const ProyectList = ({proyectArray, email}) => {
 
                 <Box>
                   {proyectObject.repositore}
-                  <Box as="span" color="gray.600" fontSize="sm">
-                    / wk
-                  </Box>
                 </Box>
+                <Flex justify='start'>
+                  <Button 
+                    colorScheme="teal" 
+                    variant="solid"
+                    mt='2rem' 
+                    onClick={()=>deleteProyect(proyectObject.id)}
+                  >
+                    Delete
+                  </Button>
+                </Flex>
               </Box>
             </Box>
           </Flex>
