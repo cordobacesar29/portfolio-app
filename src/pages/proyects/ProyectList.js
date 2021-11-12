@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Box, Image, Badge, Button } from "@chakra-ui/react";
+import { Flex, Image, Button, Text} from "@chakra-ui/react";
 
 import firebaseApp from "../../firebase";
 import {getFirestore, updateDoc, doc } from 'firebase/firestore';
@@ -12,7 +12,7 @@ export const ProyectList = ({proyectArray, email, setProyectArray}) => {
     const newArrayProyect = proyectArray.filter((proyectObject)=>proyectObject.id !== idProyectToDelete)
     // actualizar datos
     const refDocument = doc(db, `usuarios/${email}`);
-    updateDoc(refDocument, { proyects: [...newArrayProyect] });
+    await updateDoc(refDocument, { proyects: [...newArrayProyect] });
     //actualizamos el state
     setProyectArray(newArrayProyect);
   }
@@ -28,53 +28,50 @@ export const ProyectList = ({proyectArray, email, setProyectArray}) => {
       {proyectArray.map((proyectObject)=>{
         return (
           <Flex
-            margin='2rem'
+            margin='2rem' w="18rem" h="27rem" borderWidth="1px" borderRadius="lg"  
+            border='1px solid #319795' shadow='0px 0px 5px 5px #13221A' direction="column"
           >
-            <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-              <Image src={proyectObject.image}/>
-
-              <Box p="6">
-                <Box display="flex" alignItems="baseline">
-                  <Badge borderRadius="full" px="2" colorScheme="teal">
-                    New
-                  </Badge>
-                  <Box
-                    color="gray.500"
-                    fontWeight="semibold"
-                    letterSpacing="wide"
-                    fontSize="xs"
-                    textTransform="uppercase"
-                    ml="2"
-                  >
-                    {proyectObject.name}
-                  </Box>
-                </Box>
-
-                <Box
-                  mt="1"
-                  fontWeight="semibold"
-                  as="h4"
-                  lineHeight="tight"
-                  isTruncated
+            <Flex w="100%" h="40%" justify="center" p="0.5rem">
+              <Image src={proyectObject.image} />
+            </Flex>
+            <Flex w="100%" h="60%" justify="space-around"  direction="column">
+              <Flex direction="column" align="center">
+                <Text fontSize="lg" fontWeight="bold" as="h4" p="0.5">{proyectObject.name}</Text>
+                <a href={proyectObject.link} target="_blank" rel="noreferrer" >
+                  <Text fontSize="md" fontWeight="medium" as="h4" p="0.5">{proyectObject.link}</Text>
+                </a>
+                <a href={proyectObject.repositore} target="_blank" rel="noreferrer" >
+                  <Text fontSize="md" fontWeight="semibold" as="h4" p="0.5">{proyectObject.repositore}</Text>
+                </a>
+                <Text fontSize="sm" fontWeight="light" as="h4" p="0.5">{proyectObject.description}</Text>
+              </Flex>
+              <Flex justify="space-around">
+                <Button 
+                  size="sm" 
+                  onClick={ ()=> deleteProyect(proyectObject.id)} 
+                  m="1rem" 
+                  p='1rem'
+                  colorScheme="teal" 
+                  variant="outline"
+                  _hover={{ border:'1px solid red', color: "red" }}
                 >
-                  {proyectObject.description}
-                </Box>
-
-                <Box>
-                  {proyectObject.repositore}
-                </Box>
-                <Flex justify='start'>
+                  Delete
+                </Button>
+                <a href={proyectObject.image} target="_blank" rel="noreferrer">
                   <Button 
+                    size="sm" 
+                    m="1rem" 
+                    p='1rem'
                     colorScheme="teal" 
-                    variant="solid"
-                    mt='2rem' 
-                    onClick={()=>deleteProyect(proyectObject.id)}
+                    variant="outline"
+                    _hover={{ border:'1px solid blue', color:"blue" }}
                   >
-                    Delete
+                    Show it
                   </Button>
-                </Flex>
-              </Box>
-            </Box>
+                </a>
+                
+              </Flex>
+            </Flex>
           </Flex>
         )
       })}
