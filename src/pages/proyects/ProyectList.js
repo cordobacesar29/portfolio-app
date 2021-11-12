@@ -28,6 +28,7 @@ export const ProyectList = ({proyectArray, email, setProyectArray}) => {
       {proyectArray.map((proyectObject)=>{
         return (
           <Flex
+          key={proyectObject.id}
             margin='2rem' w="18rem" h="27rem" borderWidth="1px" borderRadius="lg"  
             border='1px solid #319795' shadow='0px 0px 5px 5px #13221A' direction="column"
           >
